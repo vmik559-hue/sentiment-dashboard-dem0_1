@@ -11,8 +11,8 @@ from streamlit_extras.metric_cards import style_metric_cards
 
 # ==================== CONFIGURATION ====================
 st.set_page_config(
-    page_title="Market Sentiment AI",
-    page_icon="📈",
+    page_title="Market Sentiment",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -115,7 +115,7 @@ def main():
 
     # --- HEADER ---
     st.markdown("<h1>Indian Market Sentiment Tracker</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center;'>AI-Driven Analysis of Corporate Earnings Calls & Reports</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center;'Analysis of Corporate Earnings Calls & Reports</p>", unsafe_allow_html=True)
     st.markdown("---")
 
     latest_df = df.sort_values('Date').groupby('Company').tail(1)
@@ -137,11 +137,11 @@ def main():
             """, unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with c1: render_card = render_list("🏆 Top Positive", latest_df.sort_values('Score', ascending=False).head(5), "green-70")
-    with c2: render_card = render_list("📉 Top Negative", latest_df.sort_values('Score', ascending=True).head(5), "red-70")
+    with c1: render_card = render_list("Top Positive", latest_df.sort_values('Score', ascending=False).head(5), "green-70")
+    with c2: render_card = render_list("Top Negative", latest_df.sort_values('Score', ascending=True).head(5), "red-70")
 
     sector_avg = latest_df.groupby('Sector')['Score'].mean().sort_values(ascending=False).head(5)
-    with c3: render_card = render_list("📊 Sector Leaders", sector_avg.to_frame(name='Score'), "blue-70")
+    with c3: render_card = render_list("Sector Leaders", sector_avg.to_frame(name='Score'), "blue-70")
 
     st.markdown("###")
 
@@ -149,7 +149,7 @@ def main():
     col_heat, col_dist = st.columns([1.8, 1.2])
 
     with col_heat:
-        st.subheader("🌍 Sector Performance")
+        st.subheader("Sector Performance")
         sector_perf = latest_df.groupby('Sector')[['Score']].mean().reset_index()
         sector_perf['Count'] = latest_df.groupby('Sector')['Company'].count().values
 
@@ -159,7 +159,7 @@ def main():
         st.plotly_chart(fig_heat, use_container_width=True)
 
     with col_dist:
-        st.subheader("📊 Market Spread (Bell Curve)")
+        st.subheader("Market Spread (Bell Curve)")
         x_data = latest_df['Score']
 
         # Calculate Normal Distribution
@@ -199,12 +199,12 @@ def main():
         st.plotly_chart(fig_dist, use_container_width=True)
 
     # --- DEEP DIVE ---
-    colored_header(label="🔍 Filter & Compare", description="Detailed analysis with filters", color_name="blue-70")
+    colored_header(label="Filter & Compare", description="Detailed analysis with filters", color_name="blue-70")
 
     c_filt, c_graph = st.columns([1, 3])
 
     with c_filt:
-        st.markdown("###### 🛠️ Filters")
+        st.markdown("###### Filters")
 
         # Market Cap Filter
         c_min, c_max = st.columns(2)
